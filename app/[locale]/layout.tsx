@@ -1,7 +1,9 @@
 import {NextIntlClientProvider, hasLocale} from 'next-intl';
 import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
- 
+import SidebarWrapper from './SidebarWrapper';
+import '../globals.css'
+
 type Props = {
   children: React.ReactNode;
   params: Promise<{locale: string}>;
@@ -17,7 +19,9 @@ export default async function LocaleLayout({children, params}: Props) {
   return (
     <html>
       <body>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider>
+          <SidebarWrapper locale={locale} children={children} />
+        </NextIntlClientProvider>
       </body>
     </html>
   );
