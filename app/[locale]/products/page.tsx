@@ -15,6 +15,8 @@ type ProductListResponse = Product[]
 const PAGE_SIZES = [10, 30, 50] as const
 const DEFAULT_PAGE_SIZE = 10
 
+export const runtime = 'nodejs'
+
 export default async function ProductsPage({
   searchParams,
 }: {
@@ -44,10 +46,11 @@ export default async function ProductsPage({
   const res = await fetch(
     'https://fakestoreapi.com/products',
     { cache: 'no-store' }
-  ) 
+  )
 
   if (!res.ok) {
-    throw new Error(t('errorFetch'))
+    console.error('Fetch failed:', res.status, res.statusText)
+    throw new Error('fetch_failed')
   }
 
   const data: ProductListResponse = await res.json()
