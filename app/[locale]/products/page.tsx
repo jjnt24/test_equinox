@@ -44,7 +44,7 @@ export default async function ProductsPage({
   const res = await fetch(
     'https://fakestoreapi.com/products',
     { cache: 'no-store' }
-  )
+  ) 
 
   if (!res.ok) {
     throw new Error(t('errorFetch'))
