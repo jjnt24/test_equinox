@@ -29,8 +29,6 @@ export default function Sidebar({ locale }: { locale: any }) {
   const menus = [
     { name: t('generator'), href: "/generator", icon: <Home size={18} /> },
     { name: t('history'), href: "/history", icon: <History size={18} /> },
-    { name: t('credits'), href: "/credits", icon: <Coins size={18} /> },
-    { name: t('about'), href: "/about", icon: <Info size={18} /> },
   ];
 
   return (
