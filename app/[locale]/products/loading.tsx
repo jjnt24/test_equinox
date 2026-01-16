@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server"
 
 export default async function LoadingProducts() {
-  const t = await getTranslations('Berries')
+  const t = await getTranslations('Products')
   
   return (
     <main className="p-6 space-y-6">
