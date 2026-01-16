@@ -41,7 +41,10 @@ export default async function ProductsPage({
   /* ===============================
      2️⃣ FETCH ALL
      =============================== */
-  const res = await fetch('https://fakestoreapi.com/products')
+  const res = await fetch(
+    'https://fakestoreapi.com/products',
+    { cache: 'no-store' }
+  )
 
   if (!res.ok) {
     throw new Error(t('errorFetch'))
@@ -114,9 +117,9 @@ export default async function ProductsPage({
             {currentPage > 1 && (
               <a
                 href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                className="px-3 py-1 border rounded"
+                className="px-2 py-1 border rounded"
               >
-                {t('prev')}
+                {'<'}
               </a>
             )}
 
@@ -130,9 +133,9 @@ export default async function ProductsPage({
             {currentPage < totalPages && (
               <a
                 href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                className="px-3 py-1 border rounded"
+                className="px-2 py-1 border rounded"
               >
-                {t('next')}
+                {'>'}
               </a>
             )}
           </div>

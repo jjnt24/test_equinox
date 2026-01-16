@@ -115,9 +115,9 @@ export default async function BerriesPage({
             {currentPage > 1 && (
               <a
                 href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                className="px-3 py-1 border rounded"
+                className="px-2 py-1 border rounded"
               >
-                {t('prev')}
+                {'<'}
               </a>
             )}
 
@@ -131,9 +131,9 @@ export default async function BerriesPage({
             {currentPage < totalPages && (
               <a
                 href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                className="px-3 py-1 border rounded"
+                className="px-2 py-1 border rounded"
               >
-                {t('next')}
+                {'>'}
               </a>
             )}
           </div>

@@ -30,9 +30,9 @@ export default async function LoadingBerries() {
 
           {/* PAGINATION */}
           <div className="flex gap-2 items-center">
-            <div className="h-8 w-14 bg-gray-200 rounded animate-pulse" />
+            <div className="h-8 w-8 bg-gray-200 rounded animate-pulse" />
             <div className="h-8 w-28 bg-gray-200 rounded animate-pulse" />
-            <div className="h-8 w-14 bg-gray-200 rounded animate-pulse" />
+            <div className="h-8 w-8 bg-gray-200 rounded animate-pulse" />
           </div>
         </div>
       </div>
