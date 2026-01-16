@@ -26,6 +26,32 @@
       "delete": "Hapus"
     }
   },
+  "ProductForm": {
+    "title": {
+      "create": "Tambah Produk",
+      "edit": "Edit Produk"
+    },
+    "field": {
+      "title": "Judul",
+      "price": "Harga",
+      "category": "Kategori",
+      "image": "URL Gambar",
+      "description": "Deskripsi"
+    },
+    "button": {
+      "create": "Simpan",
+      "update": "Perbarui",
+      "creating": "Menyimpan...",
+      "updating": "Memperbarui..."
+    },
+    "toast": {
+      "loadError": "Gagal memuat produk",
+      "createSuccess": "Produk berhasil ditambahkan 🎉",
+      "createError": "Gagal menambahkan produk",
+      "updateSuccess": "Produk berhasil diperbarui 🎉",
+      "updateError": "Gagal memperbarui produk"
+    }
+  },
   "ProductViewer": {
     "title": "Penampil Produk",
     "chooseProduct": "Pilih produk",

@@ -3,11 +3,19 @@
 import { useLocale, useTranslations } from 'next-intl'
 import { usePathname, useRouter } from '@/i18n/navigation'
 import { routing } from '@/i18n/routing'
+import { useSearchParams } from 'next/navigation'
+
+function withCurrentQuery(pathname: string, searchParams: URLSearchParams) {
+  const q = searchParams.toString()
+  return q ? `${pathname}?${q}` : pathname
+}
 
 export default function LanguageSwitcher() {
   const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
+  const searchParams = useSearchParams()
+
   const t = useTranslations('LanguageSwitcher')
 
   return (
@@ -21,7 +29,10 @@ export default function LanguageSwitcher() {
           return (
             <button
               key={l}
-              onClick={() => router.replace(pathname, { locale: l })}
+              onClick={() => router.replace(
+                withCurrentQuery(pathname, searchParams),
+                { locale: l }
+              )}
               disabled={isActive}
               className={`
                 px-4 py-1.5 text-sm font-medium transition

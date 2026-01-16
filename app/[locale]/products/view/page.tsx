@@ -123,7 +123,7 @@ export default function ProductViewerPage() {
                 selectedId === queryProductId
               )
             }
-            className="px-4 py-2 border rounded disabled:opacity-50 disabled:cursor-default"
+            className="px-4 py-2 border rounded disabled:opacity-50 cursor-pointer disabled:cursor-default"
           >
             {t('go')}
           </button>

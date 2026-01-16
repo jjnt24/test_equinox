@@ -26,6 +26,32 @@
       "delete": "Delete"
     }
   },
+  "ProductForm": {
+    "title": {
+      "create": "Create Product",
+      "edit": "Edit Product"
+    },
+    "field": {
+      "title": "Title",
+      "price": "Price",
+      "category": "Category",
+      "image": "Image URL",
+      "description": "Description"
+    },
+    "button": {
+      "create": "Create",
+      "update": "Update",
+      "creating": "Creating...",
+      "updating": "Updating..."
+    },
+    "toast": {
+      "loadError": "Failed to load product",
+      "createSuccess": "Product created successfully 🎉",
+      "createError": "Failed to create product",
+      "updateSuccess": "Product updated successfully 🎉",
+      "updateError": "Failed to update product"
+    }
+  },
   "ProductViewer": {
     "title": "Product Viewer",
     "chooseProduct": "Choose product",

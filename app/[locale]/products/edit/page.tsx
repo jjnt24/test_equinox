@@ -1,4 +1,10 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import BackButton from '@/components/BackButton'
+import { useToast } from '@/store/useToastStore'
 
 interface Product {
   id?: number
@@ -9,63 +15,92 @@ interface Product {
   image: string
 }
 
-export default async function ProductEditPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ id?: string }>
-}) {
-  const { id } = await searchParams
+export default function ProductEditPage() {
+  const t = useTranslations('ProductForm')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const toast = useToast()
+
+  const id = searchParams.get('id')
   const isEdit = Boolean(id)
 
-  let product: Product = {
+  const [isLoading, setIsLoading] = useState(false)
+  const [product, setProduct] = useState<Product>({
     title: '',
     price: 0,
     description: '',
     category: '',
     image: '',
-  }
+  })
 
-  if (isEdit) {
-    const res = await fetch(
-      `https://fakestoreapi.com/products/${id}`
-    )
+  /* -------- fetch product (edit) -------- */
+  useEffect(() => {
+    if (!isEdit) return
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch product')
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`https://fakestoreapi.com/products/${id}`)
+        if (!res.ok) throw new Error()
+        setProduct(await res.json())
+      } catch {
+        toast.error(t('toast.loadError'))
+      }
     }
 
-    product = await res.json()
+    fetchProduct()
+  }, [id, isEdit, toast, t])
+
+  /* -------- submit -------- */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
+
+    try {
+      const res = await fetch(
+        isEdit
+          ? `https://fakestoreapi.com/products/${id}`
+          : `https://fakestoreapi.com/products`,
+        {
+          method: isEdit ? 'PUT' : 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(product),
+        }
+      )
+
+      if (!res.ok) throw new Error()
+
+      toast.success(
+        isEdit ? t('toast.updateSuccess') : t('toast.createSuccess')
+      )
+
+      router.back()
+    } catch {
+      toast.error(
+        isEdit ? t('toast.updateError') : t('toast.createError')
+      )
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
-    <main className="max-w-2xl p-6 mx-auto space-y-6">
+    <main className="max-w-2xl p-6 space-y-6">
       <h1 className="text-2xl font-bold">
-        {isEdit ? 'Edit Product' : 'Create Product'}
+        {isEdit ? t('title.edit') : t('title.create')}
       </h1>
 
-      <form
-        action="https://fakestoreapi.com/products"
-        method="post"
-        className="space-y-4"
-      >
-        {/* ID (hidden for edit) */}
-        {isEdit && (
-          <input
-            type="hidden"
-            name="id"
-            value={product.id}
-          />
-        )}
-
+      <form onSubmit={handleSubmit} className="space-y-4">
         {/* TITLE */}
         <div>
           <label className="block text-sm font-medium">
-            Title
+            {t('field.title')}
           </label>
           <input
-            name="title"
-            defaultValue={product.title}
             required
+            value={product.title}
+            onChange={(e) =>
+              setProduct({ ...product, title: e.target.value })
+            }
             className="w-full border rounded px-3 py-2"
           />
         </div>
@@ -73,14 +108,16 @@ export default async function ProductEditPage({
         {/* PRICE */}
         <div>
           <label className="block text-sm font-medium">
-            Price
+            {t('field.price')}
           </label>
           <input
-            name="price"
             type="number"
             step="0.01"
-            defaultValue={product.price}
             required
+            value={product.price}
+            onChange={(e) =>
+              setProduct({ ...product, price: Number(e.target.value) })
+            }
             className="w-full border rounded px-3 py-2"
           />
         </div>
@@ -88,24 +125,28 @@ export default async function ProductEditPage({
         {/* CATEGORY */}
         <div>
           <label className="block text-sm font-medium">
-            Category
+            {t('field.category')}
           </label>
           <input
-            name="category"
-            defaultValue={product.category}
             required
+            value={product.category}
+            onChange={(e) =>
+              setProduct({ ...product, category: e.target.value })
+            }
             className="w-full border rounded px-3 py-2"
           />
         </div>
 
-        {/* IMAGE URL */}
+        {/* IMAGE */}
         <div>
           <label className="block text-sm font-medium">
-            Image URL
+            {t('field.image')}
           </label>
           <input
-            name="image"
-            defaultValue={product.image}
+            value={product.image}
+            onChange={(e) =>
+              setProduct({ ...product, image: e.target.value })
+            }
             className="w-full border rounded px-3 py-2"
           />
         </div>
@@ -113,12 +154,14 @@ export default async function ProductEditPage({
         {/* DESCRIPTION */}
         <div>
           <label className="block text-sm font-medium">
-            Description
+            {t('field.description')}
           </label>
           <textarea
-            name="description"
-            defaultValue={product.description}
             rows={4}
+            value={product.description}
+            onChange={(e) =>
+              setProduct({ ...product, description: e.target.value })
+            }
             className="w-full border rounded px-3 py-2"
           />
         </div>
@@ -127,9 +170,16 @@ export default async function ProductEditPage({
         <div className="flex gap-4">
           <button
             type="submit"
-            className="px-4 py-2 bg-black text-white rounded"
+            disabled={isLoading}
+            className="px-4 py-2 bg-black text-white rounded disabled:opacity-60"
           >
-            {isEdit ? 'Update' : 'Create'}
+            {isLoading
+              ? isEdit
+                ? t('button.updating')
+                : t('button.creating')
+              : isEdit
+              ? t('button.update')
+              : t('button.create')}
           </button>
 
           <BackButton />
