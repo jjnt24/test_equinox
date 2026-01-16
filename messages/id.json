@@ -20,10 +20,16 @@
       "name": "Nama",
       "actions": "Aksi"
     },
+    "confirmDelete": "Yakin ingin menghapus produk ini?",
+    "toast": {
+      "deleteSuccess": "Produk berhasil dihapus!",
+      "deleteError": "Gagal menghapus produk"
+    },
     "actions": {
       "view": "Lihat",
       "edit": "Ubah",
-      "delete": "Hapus"
+      "delete": "Hapus",
+      "deleting": "Menghapus..."
     }
   },
   "ProductForm": {
@@ -46,9 +52,9 @@
     },
     "toast": {
       "loadError": "Gagal memuat produk",
-      "createSuccess": "Produk berhasil ditambahkan 🎉",
+      "createSuccess": "Produk berhasil ditambahkan!",
       "createError": "Gagal menambahkan produk",
-      "updateSuccess": "Produk berhasil diperbarui 🎉",
+      "updateSuccess": "Produk berhasil diperbarui!",
       "updateError": "Gagal memperbarui produk"
     }
   },

@@ -2,6 +2,7 @@ import PaginationInfo from "@/components/PaginationInfo"
 import SearchInput from "@/components/SearchInput"
 import Link from "next/link"
 import { getTranslations } from "next-intl/server"
+import DeleteProductButton from "./DeleteProductButton"
 
 interface Product {
   id: number
@@ -14,8 +15,6 @@ type ProductListResponse = Product[]
 
 const PAGE_SIZES = [10, 30, 50] as const
 const DEFAULT_PAGE_SIZE = 10
-
-export const runtime = 'nodejs'
 
 export default async function ProductsPage({
   searchParams,
@@ -191,8 +190,8 @@ export default async function ProductsPage({
               <td className="px-4 py-2">
                 {p.title}
               </td>
-              <td className="px-4 py-2 text-right">
-                <div className="flex gap-2 justify-end">
+              <td className="px-4 py-2 w-70 text-right">
+                <div className="flex gap-2">
                   <Link
                     href={`/products/view?id=${p.id}`}
                     className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
@@ -207,11 +206,8 @@ export default async function ProductsPage({
                     {t('actions.edit')}
                   </Link>
 
-                  <button
-                    className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
-                  >
-                    {t('actions.delete')}
-                  </button>
+                  <DeleteProductButton productId={p.id} />
+                  
                 </div>
               </td>
             </tr>
