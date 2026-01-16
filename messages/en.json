@@ -79,7 +79,29 @@
     "errorFetch": "Failed to fetch berries",
     "table": {
       "no": "No",
-      "name": "Name"
+      "name": "Name",
+      "actions": "Actions"
+    },
+    "actions": {
+      "showDetail": "Show Detail"
+    }
+  },
+  "BerryDetail": {
+    "actions": {
+      "showDetail": "Show Detail",
+      "close": "Close"
+    },
+    "errors": {
+      "loadDetail": "Failed to load berry detail"
+    },
+    "detail": {
+      "title": "{name} Berry",
+      "loadingTitle": "Loading berry detail...",
+      "growthTime": "Growth Time",
+      "maxHarvest": "Max Harvest",
+      "size": "Size",
+      "smoothness": "Smoothness",
+      "soilDryness": "Soil Dryness"
     }
   },
   "Pagination": {

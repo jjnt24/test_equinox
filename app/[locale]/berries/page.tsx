@@ -1,6 +1,7 @@
 import PaginationInfo from "@/components/PaginationInfo"
 import SearchInput from "@/components/SearchInput"
 import { getTranslations } from "next-intl/server"
+import BerryDetailButton from "./BerryDetailButton"
 
 interface Berry {
   name: string
@@ -161,6 +162,9 @@ export default async function BerriesPage({
             <th className="px-4 py-2 text-left">
               {t('table.name')}
             </th>
+            <th className="px-4 py-2 text-left">
+              {t('table.actions')}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -171,6 +175,12 @@ export default async function BerriesPage({
               </td>
               <td className="px-4 py-2 capitalize">
                 {b.name}
+              </td>
+
+              <td className="px-4 py-2 w-70 text-right">
+                <div className="flex gap-2">
+                  <BerryDetailButton url={b.url} />
+                </div>
               </td>
             </tr>
           ))}

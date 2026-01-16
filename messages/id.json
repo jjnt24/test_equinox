@@ -79,7 +79,29 @@
     "errorFetch": "Gagal mengambil data berry",
     "table": {
       "no": "No",
-      "name": "Nama"
+      "name": "Nama",
+      "actions": "Aksi"
+    },
+    "actions": {
+      "showDetail": "Lihat Detil"
+    }
+  },
+  "BerryDetail": {
+    "actions": {
+      "showDetail": "Lihat Detil",
+      "close": "Tutup"
+    },
+    "errors": {
+      "loadDetail": "Gagal memuat detail berry"
+    },
+    "detail": {
+      "title": "Berry {name}",
+      "loadingTitle": "Memuat detail berry...",
+      "growthTime": "Waktu Tumbuh",
+      "maxHarvest": "Panen Maksimum",
+      "size": "Ukuran",
+      "smoothness": "Kehalusan",
+      "soilDryness": "Kekeringan Tanah"
     }
   },
   "Pagination": {
