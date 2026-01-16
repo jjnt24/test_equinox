@@ -1,10 +1,61 @@
 {
-  "HomePage": {
-    "title": "Halo dunia!"
-  },
   "Sidebar": {
     "eCommerceProducts": "Produk Toko Online",
     "eCommerceProductDetail": "Detil Produk",
     "pokemoenBerry": "Buah Beri Pokémon"
+  },
+  "LanguageSwitcher": {
+    "language": "Bahasa"
+  },
+  "Products": {
+    "title": "Daftar Produk",
+    "pageSize": "Ukuran halaman",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageIndicator": "Halaman {current} dari {total}",
+    "addProduct": "Tambah Produk",
+    "errorFetch": "Gagal mengambil data produk",
+    "table": {
+      "no": "No",
+      "name": "Nama",
+      "actions": "Aksi"
+    },
+    "actions": {
+      "view": "Lihat",
+      "edit": "Ubah",
+      "delete": "Hapus"
+    }
+  },
+  "ProductViewer": {
+    "title": "Penampil Produk",
+    "chooseProduct": "Pilih produk",
+    "go": "Lihat",
+    "category": "Kategori"
+  },
+  "Berries": {
+    "title": "Daftar Buah Beri Pokémon",
+    "pageSize": "Ukuran halaman",
+    "prev": "Sebelumnya",
+    "next": "Berikutnya",
+    "pageIndicator": "Halaman {current} dari {total}",
+    "errorFetch": "Gagal mengambil data berry",
+    "table": {
+      "no": "No",
+      "name": "Nama"
+    }
+  },
+  "Pagination": {
+    "normal": "{start}–{end} dari {total}",
+    "filtered": "{start}–{end} dari {filtered} (difilter dari {total})",
+    "empty": "Data tidak ditemukan"
+  },
+  "PaginationInfo": {
+    "noResults": "Tidak ada hasil{search, select, undefined {} other { untuk \"{search}\"}}.",
+    "showingFiltered": "Menampilkan <strong>{start}–{end}</strong> dari <strong>{count}</strong> hasil untuk <strong>\"{search}\"</strong>.",
+    "showingAll": "Menampilkan <strong>{start}–{end}</strong> dari <strong>{count}</strong> data.",
+    "pageInfo": "Halaman <strong>{current}</strong> dari <strong>{total}</strong>."
+  },
+  "SearchInput": {
+    "searchPlaceholder": "Pencarian..."
   }
 }

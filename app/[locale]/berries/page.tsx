@@ -1,5 +1,6 @@
 import PaginationInfo from "@/components/PaginationInfo"
 import SearchInput from "@/components/SearchInput"
+import { getTranslations } from "next-intl/server"
 
 interface Berry {
   name: string
@@ -23,6 +24,8 @@ export default async function BerriesPage({
     search?: string
   }>
 }) {
+  const t = await getTranslations('Berries')
+
   const { page, pageSize, search } = await searchParams
 
   const currentPage = Math.max(Number(page ?? 1), 1)
@@ -36,29 +39,29 @@ export default async function BerriesPage({
   const searchQuery = (search ?? '').toLowerCase()
 
   /* ===============================
-     2️⃣ GREEDY FETCH ALL
+     2️⃣ FETCH ALL DATA
      =============================== */
   const res = await fetch(
     `https://pokeapi.co/api/v2/berry/?limit=1000000`
   )
 
   if (!res.ok) {
-    throw new Error('Failed to fetch all berries')
+    throw new Error(t('errorFetch'))
   }
 
   const data: BerryListResponse = await res.json()
 
   /* ===============================
-     3️⃣ SEARCH FILTER
+     3️⃣ SEARCH + SORT
      =============================== */
   const filtered = searchQuery
     ? data.results.filter(b =>
         b.name.toLowerCase().includes(searchQuery)
       )
     : data.results
-  
+
   const sorted = [...filtered].sort((a, b) =>
-    a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+    a.name.localeCompare(b.name)
   )
 
   /* ===============================
@@ -70,95 +73,74 @@ export default async function BerriesPage({
   )
 
   const start = (currentPage - 1) * resolvedPageSize
-  const paginated = sorted.slice(
-    start,
-    start + resolvedPageSize
-  )
+  const paginated = sorted.slice(start, start + resolvedPageSize)
 
   const rangeStart = filtered.length === 0 ? 0 : start + 1
-  const rangeEnd = Math.min(
-    start + resolvedPageSize,
-    filtered.length
-  )
+  const rangeEnd = Math.min(start + resolvedPageSize, filtered.length)
 
   return (
     <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Berry List</h1>
+      <h1 className="text-2xl font-bold">
+        {t('title')}
+      </h1>
 
       <div className="flex gap-4 justify-between items-center">
         {/* SEARCH */}
         <SearchInput />
 
         <div className="flex gap-4 items-center">
+          {/* PAGE SIZE */}
+          <div className="flex gap-2 items-center">
+            <span>{t('pageSize')}:</span>
 
-            {/* PAGE SIZE */}
-            <div className="flex gap-2 items-center">
-                <span>Page size:</span>
-                {PAGE_SIZES.map(size => (
-                <a
-                    key={size}
-                    href={`?page=1&pageSize=${size}&search=${search ?? ''}`}
-                    className={`px-3 py-1 border rounded ${
-                    size === resolvedPageSize
-                        ? 'bg-gray-200 font-semibold'
-                        : ''
-                    }`}
-                >
-                    {size}
-                </a>
-                ))}
-            </div>
+            {PAGE_SIZES.map(size => (
+              <a
+                key={size}
+                href={`?page=1&pageSize=${size}&search=${search ?? ''}`}
+                className={`px-3 py-1 border rounded ${
+                  size === resolvedPageSize
+                    ? 'bg-gray-200 font-semibold'
+                    : ''
+                }`}
+              >
+                {size}
+              </a>
+            ))}
+          </div>
 
-            <div>
-                |
-            </div>
+          <span>|</span>
 
-            {/* PAGINATION */}
-            <div className="flex gap-2 items-center">
-                {currentPage > 1 && (
-                <a
-                    href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                    className="px-3 py-1 border rounded"
-                >
-                    Prev
-                </a>
-                )}
+          {/* PAGINATION */}
+          <div className="flex gap-2 items-center">
+            {currentPage > 1 && (
+              <a
+                href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
+                className="px-3 py-1 border rounded"
+              >
+                {t('prev')}
+              </a>
+            )}
 
-                <span className="px-3 py-1 border rounded bg-gray-100">
-                Page {currentPage} of {totalPages}
-                </span>
+            <span className="px-3 py-1 border rounded bg-gray-100">
+              {t('pageIndicator', {
+                current: currentPage,
+                total: totalPages,
+              })}
+            </span>
 
-                {currentPage < totalPages && (
-                <a
-                    href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                    className="px-3 py-1 border rounded"
-                >
-                    Next
-                </a>
-                )}
-            </div>
-
-            {/* <div>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                <a
-                  key={n}
-                  href={`?page=${n}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 border-y border-slate-300 dark:border-slate-700 ${
-                    n === currentPage
-                      ? "bg-blue-600 dark:bg-blue-500 text-white"
-                      : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-700"
-                  }`}
-                >
-                  {n}
-                </a>
-              ))}
-            </div> */}
-
+            {currentPage < totalPages && (
+              <a
+                href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
+                className="px-3 py-1 border rounded"
+              >
+                {t('next')}
+              </a>
+            )}
+          </div>
         </div>
-
       </div>
 
-      {/* PAGINATION INFO TEXT */}
+      {/* PAGINATION INFO */}
       <PaginationInfo
         rangeStart={rangeStart}
         rangeEnd={rangeEnd}
@@ -169,13 +151,16 @@ export default async function BerriesPage({
         searchQuery={searchQuery || undefined}
       />
 
-
       {/* TABLE */}
       <table className="min-w-full border text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2 w-10 text-left">No</th>
-            <th className="px-4 py-2 text-left">Name</th>
+            <th className="px-4 py-2 w-10 text-left">
+              {t('table.no')}
+            </th>
+            <th className="px-4 py-2 text-left">
+              {t('table.name')}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -191,7 +176,6 @@ export default async function BerriesPage({
           ))}
         </tbody>
       </table>
-
     </main>
   )
 }

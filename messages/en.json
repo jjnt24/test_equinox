@@ -1,10 +1,61 @@
 {
-  "HomePage": {
-    "title": "Hello world!"
-  },
   "Sidebar": {
     "eCommerceProducts": "E-Commerce Product",
     "eCommerceProductDetail": "Product Detail",
     "pokemoenBerry": "Pokémon Berry"
+  },
+  "LanguageSwitcher": {
+    "language": "Language"
+  },
+  "Products": {
+    "title": "Product List",
+    "pageSize": "Page size",
+    "prev": "Prev",
+    "next": "Next",
+    "pageIndicator": "Page {current} of {total}",
+    "addProduct": "Add Product",
+    "errorFetch": "Failed to fetch products",
+    "table": {
+      "no": "No",
+      "name": "Name",
+      "actions": "Actions"
+    },
+    "actions": {
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "ProductViewer": {
+    "title": "Product Viewer",
+    "chooseProduct": "Choose product",
+    "go": "Go",
+    "category": "Category"
+  },
+  "Berries": {
+    "title": "Pokémon Berries List",
+    "pageSize": "Page size",
+    "prev": "Prev",
+    "next": "Next",
+    "pageIndicator": "Page {current} of {total}",
+    "errorFetch": "Failed to fetch berries",
+    "table": {
+      "no": "No",
+      "name": "Name"
+    }
+  },
+  "Pagination": {
+    "normal": "{start}–{end} of {total}",
+    "filtered": "{start}–{end} of {filtered} (filtered from {total})",
+    "empty": "No data found"
+  },
+  "PaginationInfo": {
+    "noResults": "No results found{search, select, undefined {} other { for \"{search}\"}}.",
+    "showingFiltered": "Showing <strong>{start}–{end}</strong> of <strong>{count}</strong> result(s) for <strong>\"{search}\"</strong>.",
+    "showingAll": "Showing <strong>{start}–{end}</strong> of <strong>{count}</strong> entries.",
+    "pageInfo": "Page <strong>{current}</strong> of <strong>{total}</strong>."
+  },
+  "SearchInput": {
+    "searchPlaceholder": "Search..."
   }
 }

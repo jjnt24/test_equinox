@@ -17,3 +17,7 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.animate-pulse {
+  animation: pulse 1.5s ease-in-out infinite;
+}

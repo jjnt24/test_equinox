@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import Skeleton from '@/components/Skeleton'
 
 interface Product {
   id: number
@@ -13,13 +15,15 @@ interface Product {
 }
 
 export default function ProductViewerPage() {
+  const t = useTranslations('ProductViewer')
+
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
 
   const queryProductId = searchParams.get('id')
     ? Number(searchParams.get('id'))
     : null
-
 
   const [products, setProducts] = useState<Product[]>([])
   const [selectedId, setSelectedId] = useState<number | ''>('')
@@ -29,9 +33,8 @@ export default function ProductViewerPage() {
   const [detailLoading, setDetailLoading] = useState(false)
 
   /* ===============================
-     1️⃣ Fetch product list
+     1️⃣ FETCH PRODUCT LIST
      =============================== */
-
   useEffect(() => {
     async function loadProducts() {
       try {
@@ -46,60 +49,64 @@ export default function ProductViewerPage() {
     loadProducts()
   }, [])
 
+  /* ===============================
+     2️⃣ FETCH PRODUCT DETAIL
+     =============================== */
   useEffect(() => {
     if (!queryProductId) return
 
     async function fetchDetail() {
-        setDetailLoading(true)
-        setSelectedProduct(null)
+      setDetailLoading(true)
+      setSelectedProduct(null)
 
-        const res = await fetch(
+      const res = await fetch(
         `https://fakestoreapi.com/products/${queryProductId}`
-        )
-        const data = await res.json()
+      )
+      const data = await res.json()
 
-        setSelectedProduct(data)
-        setDetailLoading(false)
+      setSelectedProduct(data)
+      setDetailLoading(false)
     }
 
     fetchDetail()
-
     setSelectedId(queryProductId)
-
   }, [queryProductId])
 
-
-  /* ===============================
-     2️⃣ Fetch product detail
-     =============================== */
-  async function handleGo() {
+  function handleGo() {
     if (!selectedId) return
 
-    router.push(
-        `?id=${selectedId}`,
-        { scroll: false }
-    )
+    router.push(`?id=${selectedId}`, { scroll: false })
   }
 
   return (
     <main className="max-w-2xl p-6 space-y-6">
       <h1 className="text-2xl font-bold">
-        Product Viewer
+        {t('title')}
       </h1>
 
       {/* SELECT */}
       {listLoading ? (
-        <p className="text-gray-500">Loading products…</p>
+        <div className="flex gap-3">
+          <Skeleton className="flex-1 h-10" />
+          <Skeleton className="w-16 h-10" />
+        </div>
       ) : (
         <div className="flex gap-3">
           <select
             value={selectedId}
             onChange={e => {
-                setSelectedId(Number(e.target.value))
+              setSelectedProduct(null)
+              router.push(pathname, { scroll: false })
+              setSelectedId(
+                e.target.value ? Number(e.target.value) : ''
+              )
             }}
             className="flex-1 border rounded px-3 py-2"
           >
-            <option value="">Choose product</option>
+            <option value="">
+              {t('chooseProduct')}
+            </option>
+
             {products.map(p => (
               <option key={p.id} value={p.id}>
                 {p.title}
@@ -110,26 +117,34 @@ export default function ProductViewerPage() {
           <button
             onClick={handleGo}
             disabled={
-                !selectedId || 
-                (
-                    queryProductId !== null &&
-                    selectedId === queryProductId
-                )
+              !selectedId ||
+              (
+                queryProductId !== null &&
+                selectedId === queryProductId
+              )
             }
-            className="px-4 py-2 border rounded disabled:opacity-50 cursor-pointer disabled:cursor-default"
+            className="px-4 py-2 border rounded disabled:opacity-50 disabled:cursor-default"
           >
-            Go
+            {t('go')}
           </button>
         </div>
       )}
 
-      {/* DETAIL */}
+      {/* DETAIL LOADING */}
       {detailLoading && (
-        <p className="text-gray-500">
-          Loading product details…
-        </p>
+        <div className="border rounded p-4 space-y-3">
+          <Skeleton className="h-6 w-3/4" />
+          <Skeleton className="h-40 w-40" />
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-5/6" />
+          <div className="flex justify-between">
+            <Skeleton className="h-4 w-32" />
+            <Skeleton className="h-4 w-16" />
+          </div>
+        </div>
       )}
 
+      {/* DETAIL */}
       {selectedProduct && (
         <div className="border rounded p-4 space-y-3">
           <h2 className="font-semibold text-lg">
@@ -146,7 +161,7 @@ export default function ProductViewerPage() {
 
           <div className="flex justify-between text-sm">
             <span>
-              Category: {selectedProduct.category}
+              {t('category')}: {selectedProduct.category}
             </span>
             <span className="font-semibold">
               ${selectedProduct.price}

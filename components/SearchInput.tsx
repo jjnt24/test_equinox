@@ -1,10 +1,13 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export default function SearchInput() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useTranslations('SearchInput')
+
 
   function onChange(value: string) {
     const params = new URLSearchParams(searchParams.toString())
@@ -24,7 +27,7 @@ export default function SearchInput() {
   return (
     <input
       type="text"
-      placeholder="Search..."
+      placeholder={t('searchPlaceholder')}
       defaultValue={searchParams.get('search') ?? ''}
       onChange={e => onChange(e.target.value)}
       className="border px-3 py-2 rounded"

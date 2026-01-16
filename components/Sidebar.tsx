@@ -51,7 +51,7 @@ export default function Sidebar({ locale }: { locale: any }) {
         </div>
 
         {/* Main navigation */}
-        <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+        <nav className="p-4 space-y-2 overflow-y-auto">
           {menus.map((menu) => (
             <Link
               key={menu.href}

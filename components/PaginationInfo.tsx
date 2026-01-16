@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl'
+
 interface PaginationInfoProps {
   rangeStart: number
   rangeEnd: number
@@ -17,31 +19,43 @@ export default function PaginationInfo({
   totalPages,
   searchQuery,
 }: PaginationInfoProps) {
+  const t = useTranslations('PaginationInfo')
+
   if (filteredCount === 0) {
     return (
       <p className="text-sm text-gray-600">
-        No results found
-        {searchQuery && ` for "${searchQuery}"`}.
+        {t('noResults', {
+          search: searchQuery ?? '',
+        })}
       </p>
     )
   }
 
   return (
     <p className="text-sm text-gray-600">
-      {searchQuery ? (
-        <>
-          Showing <strong>{rangeStart}–{rangeEnd}</strong> of{' '}
-          <strong>{filteredCount}</strong> result(s) for{' '}
-          <strong>"{searchQuery}"</strong>.
-        </>
-      ) : (
-        <>
-          Showing <strong>{rangeStart}–{rangeEnd}</strong> of{' '}
-          <strong>{totalCount}</strong> berries.
-        </>
-      )}
-      {' '}Page <strong>{currentPage}</strong> of{' '}
-      <strong>{totalPages}</strong>.
+      {searchQuery
+        ? t.rich('showingFiltered', {
+            start: rangeStart,
+            end: rangeEnd,
+            count: filteredCount,
+            search: searchQuery,
+            strong: (chunks) => <strong>{chunks}</strong>,
+          })
+        : t.rich('showingAll', {
+            start: rangeStart,
+            end: rangeEnd,
+            count: totalCount,
+            strong: (chunks) => <strong>{chunks}</strong>,
+          })}
+
+      {' '}
+
+      {totalPages > 1 &&
+        t.rich('pageInfo', {
+          current: currentPage,
+          total: totalPages,
+          strong: (chunks) => <strong>{chunks}</strong>,
+        })}
     </p>
   )
 }

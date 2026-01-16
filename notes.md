@@ -6,6 +6,4 @@ todo:
 - pagesize ganti dropdown
 
 - translations cleanup
-- sekeleton loading
-- beutify language selector
 - structure interfaces to be on other file?

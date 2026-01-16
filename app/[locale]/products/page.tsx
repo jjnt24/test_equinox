@@ -1,6 +1,7 @@
 import PaginationInfo from "@/components/PaginationInfo"
 import SearchInput from "@/components/SearchInput"
 import Link from "next/link"
+import { getTranslations } from "next-intl/server"
 
 interface Product {
   id: number
@@ -23,6 +24,8 @@ export default async function ProductsPage({
     search?: string
   }>
 }) {
+  const t = await getTranslations('Products')
+
   const { page, pageSize, search } = await searchParams
 
   const currentPage = Math.max(Number(page ?? 1), 1)
@@ -36,30 +39,28 @@ export default async function ProductsPage({
   const searchQuery = (search ?? '').toLowerCase()
 
   /* ===============================
-     2️⃣ GREEDY FETCH ALL
+     2️⃣ FETCH ALL
      =============================== */
   const res = await fetch('https://fakestoreapi.com/products')
 
   if (!res.ok) {
-    throw new Error('Failed to fetch products')
+    throw new Error(t('errorFetch'))
   }
 
   const data: ProductListResponse = await res.json()
-
   const totalCount = data.length
 
-
   /* ===============================
-     3️⃣ SEARCH FILTER
+     3️⃣ SEARCH + SORT
      =============================== */
   const filtered = searchQuery
     ? data.filter(p =>
         p.title.toLowerCase().includes(searchQuery)
       )
     : data
-  
+
   const sorted = [...filtered].sort((a, b) =>
-    a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+    a.title.localeCompare(b.title)
   )
 
   /* ===============================
@@ -71,81 +72,75 @@ export default async function ProductsPage({
   )
 
   const start = (currentPage - 1) * resolvedPageSize
-  const paginated = sorted.slice(
-    start,
-    start + resolvedPageSize
-  )
+  const paginated = sorted.slice(start, start + resolvedPageSize)
 
   const rangeStart = filtered.length === 0 ? 0 : start + 1
-  const rangeEnd = Math.min(
-    start + resolvedPageSize,
-    filtered.length
-  )
+  const rangeEnd = Math.min(start + resolvedPageSize, filtered.length)
 
   return (
     <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Product List</h1>
+      <h1 className="text-2xl font-bold">
+        {t('title')}
+      </h1>
 
       <div className="flex gap-4 justify-between items-center">
         {/* SEARCH */}
         <SearchInput />
 
         <div className="flex gap-4 items-center">
+          {/* PAGE SIZE */}
+          <div className="flex gap-2 items-center">
+            <span>{t('pageSize')}:</span>
 
-            {/* PAGE SIZE */}
-            <div className="flex gap-2 items-center">
-                <span>Page size:</span>
-                {PAGE_SIZES.map(size => (
-                <a
-                    key={size}
-                    href={`?page=1&pageSize=${size}&search=${search ?? ''}`}
-                    className={`px-3 py-1 border rounded ${
-                    size === resolvedPageSize
-                        ? 'bg-gray-200 font-semibold'
-                        : ''
-                    }`}
-                >
-                    {size}
-                </a>
-                ))}
-            </div>
+            {PAGE_SIZES.map(size => (
+              <a
+                key={size}
+                href={`?page=1&pageSize=${size}&search=${search ?? ''}`}
+                className={`px-3 py-1 border rounded ${
+                  size === resolvedPageSize
+                    ? 'bg-gray-200 font-semibold'
+                    : ''
+                }`}
+              >
+                {size}
+              </a>
+            ))}
+          </div>
 
-            <div>
-                |
-            </div>
+          <span>|</span>
 
-            {/* PAGINATION */}
-            <div className="flex gap-2 items-center">
-                {currentPage > 1 && (
-                <a
-                    href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                    className="px-3 py-1 border rounded"
-                >
-                    Prev
-                </a>
-                )}
+          {/* PAGINATION */}
+          <div className="flex gap-2 items-center">
+            {currentPage > 1 && (
+              <a
+                href={`?page=${currentPage - 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
+                className="px-3 py-1 border rounded"
+              >
+                {t('prev')}
+              </a>
+            )}
 
-                <span className="px-3 py-1 border rounded bg-gray-100">
-                Page {currentPage} of {totalPages}
-                </span>
+            <span className="px-3 py-1 border rounded bg-gray-100">
+              {t('pageIndicator', {
+                current: currentPage,
+                total: totalPages,
+              })}
+            </span>
 
-                {currentPage < totalPages && (
-                <a
-                    href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
-                    className="px-3 py-1 border rounded"
-                >
-                    Next
-                </a>
-                )}
-            </div>
-
+            {currentPage < totalPages && (
+              <a
+                href={`?page=${currentPage + 1}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
+                className="px-3 py-1 border rounded"
+              >
+                {t('next')}
+              </a>
+            )}
+          </div>
         </div>
-
       </div>
 
       <div className="flex justify-between gap-4">
-
-        {/* PAGINATION INFO TEXT */}
+        {/* PAGINATION INFO */}
         <PaginationInfo
           rangeStart={rangeStart}
           rangeEnd={rangeEnd}
@@ -156,22 +151,28 @@ export default async function ProductsPage({
           searchQuery={searchQuery || undefined}
         />
 
-        {/* 'ADD PRODUCT' BUTTON */}
-        <a
-          href={`/products/edit`}
+        {/* ADD PRODUCT */}
+        <Link
+          href="/products/edit"
           className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
         >
-          Add Product
-        </a>
+          {t('addProduct')}
+        </Link>
       </div>
 
       {/* TABLE */}
       <table className="min-w-full border text-sm">
         <thead className="bg-gray-100">
           <tr>
-            <th className="px-4 py-2 w-10 text-left">No</th>
-            <th className="px-4 py-2 text-left">Name</th>
-            <th className="px-4 py-2 text-left">Actions</th>
+            <th className="px-4 py-2 w-10 text-left">
+              {t('table.no')}
+            </th>
+            <th className="px-4 py-2 text-left">
+              {t('table.name')}
+            </th>
+            <th className="px-4 py-2 text-left">
+              {t('table.actions')}
+            </th>
           </tr>
         </thead>
 
@@ -185,34 +186,32 @@ export default async function ProductsPage({
                 {p.title}
               </td>
               <td className="px-4 py-2 text-right">
-                <div className="flex gap-2">
-                  <a
+                <div className="flex gap-2 justify-end">
+                  <Link
                     href={`/products/view?id=${p.id}`}
                     className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
                   >
-                    View
-                  </a>
-                  <a
+                    {t('actions.view')}
+                  </Link>
+
+                  <Link
                     href={`/products/edit?id=${p.id}`}
                     className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
                   >
-                    Edit
-                  </a>
+                    {t('actions.edit')}
+                  </Link>
 
                   <button
                     className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
                   >
-                    Delete
+                    {t('actions.delete')}
                   </button>
-
                 </div>
               </td>
             </tr>
           ))}
         </tbody>
-
       </table>
-
     </main>
   )
 }
