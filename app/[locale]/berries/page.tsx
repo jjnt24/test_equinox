@@ -138,6 +138,22 @@ export default async function BerriesPage({
                 )}
             </div>
 
+            {/* <div>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
+                <a
+                  key={n}
+                  href={`?page=${n}&pageSize=${resolvedPageSize}&search=${search ?? ''}`}
+                  className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold focus:z-20 border-y border-slate-300 dark:border-slate-700 ${
+                    n === currentPage
+                      ? "bg-blue-600 dark:bg-blue-500 text-white"
+                      : "bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:bg-slate-100 dark:hover:bg-slate-700"
+                  }`}
+                >
+                  {n}
+                </a>
+              ))}
+            </div> */}
+
         </div>
 
       </div>

@@ -1,10 +1,11 @@
 todo:
-- [DONE] product: check detail on add/edit page
-- on submit add/edit put alert + back-to-list
+- on submit add/edit put alert + back-to-list: cari cara bikin alert
 - berry add detail page
 
 - pagination improve (can choose page, go to last page)
-- sekeleton loading
+- pagesize ganti dropdown
+
 - translations cleanup
+- sekeleton loading
 - beutify language selector
 - structure interfaces to be on other file?

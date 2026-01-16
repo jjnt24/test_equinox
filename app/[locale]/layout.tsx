@@ -3,6 +3,7 @@ import {notFound} from 'next/navigation';
 import {routing} from '@/i18n/routing';
 import SidebarWrapper from './SidebarWrapper';
 import '../globals.css'
+import ToastContainer from '@/components/ToastContainer';
 
 type Props = {
   children: React.ReactNode;
@@ -21,6 +22,7 @@ export default async function LocaleLayout({children, params}: Props) {
       <body>
         <NextIntlClientProvider>
           <SidebarWrapper locale={locale} children={children} />
+          <ToastContainer />
         </NextIntlClientProvider>
       </body>
     </html>
