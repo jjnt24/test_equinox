@@ -24,7 +24,7 @@ export default function SearchInput() {
   return (
     <input
       type="text"
-      placeholder="Search berries..."
+      placeholder="Search..."
       defaultValue={searchParams.get('search') ?? ''}
       onChange={e => onChange(e.target.value)}
       className="border px-3 py-2 rounded"

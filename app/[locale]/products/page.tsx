@@ -1,5 +1,6 @@
 import PaginationInfo from "@/components/PaginationInfo"
 import SearchInput from "@/components/SearchInput"
+import Link from "next/link"
 
 interface Product {
   id: number
@@ -142,17 +143,27 @@ export default async function ProductsPage({
 
       </div>
 
-      {/* PAGINATION INFO TEXT */}
-      <PaginationInfo
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-        filteredCount={filtered.length}
-        totalCount={totalCount}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        searchQuery={searchQuery || undefined}
-      />
+      <div className="flex justify-between gap-4">
 
+        {/* PAGINATION INFO TEXT */}
+        <PaginationInfo
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
+          filteredCount={filtered.length}
+          totalCount={totalCount}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          searchQuery={searchQuery || undefined}
+        />
+
+        {/* 'ADD PRODUCT' BUTTON */}
+        <a
+          href={`/products/edit`}
+          className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+        >
+          Add Product
+        </a>
+      </div>
 
       {/* TABLE */}
       <table className="min-w-full border text-sm">
@@ -174,6 +185,27 @@ export default async function ProductsPage({
                 {p.title}
               </td>
               <td className="px-4 py-2 text-right">
+                <div className="flex gap-2">
+                  <a
+                    href={`/products/view?id=${p.id}`}
+                    className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+                  >
+                    View
+                  </a>
+                  <a
+                    href={`/products/edit?id=${p.id}`}
+                    className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+                  >
+                    Edit
+                  </a>
+
+                  <button
+                    className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+
+                </div>
               </td>
             </tr>
           ))}

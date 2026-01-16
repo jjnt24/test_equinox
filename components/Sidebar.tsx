@@ -28,6 +28,7 @@ export default function Sidebar({ locale }: { locale: any }) {
   // Move menus inside component to access translations
   const menus = [
     { name: t('eCommerceProducts'), href: "/products", icon: <Package size={18} /> },
+    { name: t('eCommerceProductDetail'), href: "/products/view", icon: <Package size={18} /> },
     { name: t('pokemoenBerry'), href: "/berries", icon: <Apple size={18} /> },
   ];
 
@@ -70,7 +71,7 @@ export default function Sidebar({ locale }: { locale: any }) {
         {/* Bottom section with controls and user menu */}
         <div className="p-4 border-t border-gray-200 space-y-3">
           {/* Controls row */}
-          <div className="flex items-center justify-between gap-2 px-2">
+          <div className="flex items-center justify-end gap-2 px-2">
             <LanguageSwitcher />
           </div>
 
