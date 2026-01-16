@@ -3,11 +3,7 @@
     "title": "Hello world!"
   },
   "Sidebar": {
-    "generator": "Generator",
-    "history": "History",
-    "credits": "Credits",
-    "settings": "Settings",
-    "about": "About",
-    "loadingUser": "Loading user..."
+    "eCommerceProducts": "E-Commerce Product",
+    "pokemoenBerry": "Pokémon Berry"
   }
 }

@@ -15,7 +15,7 @@ export default function SidebarWrapper({ locale, children }: SidebarWrapperProps
     <Sidebar locale={locale} />
     <main
         className={`flex-1 p-6
-            mt-14 md:ml-56 md:mt-0
+            mt-14 md:ml-64 md:mt-0
         `}
     >{children}</main>
   </>;

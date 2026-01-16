@@ -3,11 +3,7 @@
     "title": "Halo dunia!"
   },
   "Sidebar": {
-    "generator": "Generator",
-    "history": "Riwayat",
-    "credits": "Kredit",
-    "settings": "Pengaturan",
-    "about": "Tentang",
-    "loadingUser": "Memuat pengguna..."
+    "eCommerceProducts": "Produk Toko Online",
+    "pokemoenBerry": "Buah Beri Pokémon"
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Menu, X, Home, History, Coins, Info } from "lucide-react";
+import { Menu, X, Apple, Package } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -27,8 +27,8 @@ export default function Sidebar({ locale }: { locale: any }) {
 
   // Move menus inside component to access translations
   const menus = [
-    { name: t('generator'), href: "/generator", icon: <Home size={18} /> },
-    { name: t('history'), href: "/history", icon: <History size={18} /> },
+    { name: t('eCommerceProducts'), href: "/products", icon: <Package size={18} /> },
+    { name: t('pokemoenBerry'), href: "/berries", icon: <Apple size={18} /> },
   ];
 
   return (
@@ -44,7 +44,7 @@ export default function Sidebar({ locale }: { locale: any }) {
       </div>
 
       {/* Sidebar for desktop */}
-      <aside className="fixed top-0 left-0 hidden md:flex flex-col w-60 h-screen bg-white shadow-sm border-r border-gray-200">
+      <aside className="fixed top-0 left-0 hidden md:flex flex-col w-64 h-screen bg-white shadow-sm border-r border-gray-200">
         <div className="py-6">
           <BrandLogo />
         </div>
