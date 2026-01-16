@@ -62,7 +62,13 @@
     "title": "Product Viewer",
     "chooseProduct": "Choose product",
     "go": "Go",
-    "category": "Category"
+    "category": "Category",
+    "actions": {
+      "back": "See other product list",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleting": "Deleting..."
+    }
   },
   "Berries": {
     "title": "Pokémon Berries List",

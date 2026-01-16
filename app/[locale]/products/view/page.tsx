@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import Skeleton from '@/components/Skeleton'
+import DeleteProductButton from '../DeleteProductButton'
+import Link from 'next/link'
 
 interface Product {
   id: number
@@ -78,6 +80,12 @@ export default function ProductViewerPage() {
     router.push(`?id=${selectedId}`, { scroll: false })
   }
 
+  function onDeleteSuccess() {
+    setSelectedProduct(null)
+    router.push(pathname, { scroll: false })
+    setSelectedId(0)
+  }
+
   return (
     <main className="max-w-2xl p-6 space-y-6">
       <h1 className="text-2xl font-bold">
@@ -146,7 +154,8 @@ export default function ProductViewerPage() {
 
       {/* DETAIL */}
       {selectedProduct && (
-        <div className="border rounded p-4 space-y-3">
+        <div className="border rounded p-4 space-y-4">
+          {/* CONTENT */}
           <h2 className="font-semibold text-lg">
             {selectedProduct.title}
           </h2>
@@ -167,8 +176,33 @@ export default function ProductViewerPage() {
               ${selectedProduct.price}
             </span>
           </div>
+
+          {/* ACTIONS */}
+          <div className="flex justify-between items-center">
+            <button
+              onClick={() => router.push('/products')}
+              className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer"
+            >
+              ← {t('actions.back')}
+            </button>
+
+            <div className="flex gap-2">
+              <Link
+                href={`/products/edit?id=${selectedProduct.id}`}
+                className="px-3 py-1 border rounded text-sm hover:bg-gray-100"
+              >
+                {t('actions.edit')}
+              </Link>
+
+              <DeleteProductButton 
+                productId={selectedProduct.id}
+                onSuccess={onDeleteSuccess}
+              />
+            </div>
+          </div>
         </div>
       )}
+
     </main>
   )
 }

@@ -7,8 +7,10 @@ import { useTranslations } from 'next-intl'
 
 export default function DeleteProductButton({
   productId,
+  onSuccess,
 }: {
   productId: number
+  onSuccess?: () => void
 }) {
   const t = useTranslations('Products')
   const toast = useToast()
@@ -29,7 +31,12 @@ export default function DeleteProductButton({
       if (!res.ok) throw new Error()
 
       toast.success(t('toast.deleteSuccess'))
-      router.refresh() // re-fetch server component
+
+      if (onSuccess) {
+        onSuccess()
+      } else {
+        router.refresh()
+      }
     } catch {
       toast.error(t('toast.deleteError'))
     } finally {
@@ -41,7 +48,7 @@ export default function DeleteProductButton({
     <button
       onClick={handleDelete}
       disabled={loading}
-      className="px-3 py-1 border rounded text-sm hover:bg-gray-100 disabled:opacity-50"
+      className="px-3 py-1 border rounded text-sm hover:bg-gray-100 cursor-pointer disabled:opacity-50"
     >
       {loading ? t('actions.deleting') : t('actions.delete')}
     </button>

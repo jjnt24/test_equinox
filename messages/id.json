@@ -62,7 +62,13 @@
     "title": "Penampil Produk",
     "chooseProduct": "Pilih produk",
     "go": "Lihat",
-    "category": "Kategori"
+    "category": "Kategori",
+    "actions": {
+      "back": "Lihat list produk lain",
+      "edit": "Ubah",
+      "delete": "Hapus",
+      "deleting": "Menghapus..."
+    }
   },
   "Berries": {
     "title": "Daftar Buah Beri Pokémon",
